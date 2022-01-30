@@ -1,51 +1,32 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/view/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/view/assets/css/style.css">
-    <title>Tic tac toe</title>
-</head>
-
-<header>
-    <div class="container-sm">
-        <div class="row justify-content-center">
-            <h1 class="header-title">Tic tac toe</h1>
-        </div>
-    </div>
-</header>
+<?php require_once 'view/blocks/head.php'; ?>
+<?php require_once 'view/blocks/header.php'; ?>
 
 <body>
-<div class="container-sm">
-    <form action="/handlers/submit-cell.php" method="post">
+    <div class="container-sm">
+        <?php 
+            $game_map = get_game_map(); 
+            $opened_cells = get_open_cells();
+            ?>
         <div class="row justify-content-center">
             <div class="cells">
-
-                <style>
-                    .cell:hover:before{
-                        content: 'X';
-                        font-size: 100px;
-                    }
-                </style>
-
-                <button type="submit" class="cell" name="number" value=""></button>
-                <button type="submit" class="cell" name="number" value=""></button>
-                <button type="submit" class="cell" name="number" value=""></button>
-                <button type="submit" class="cell" name="number" value=""></button>
-                <button type="submit" class="cell" name="number" value=""></button>
-                <button type="submit" class="cell" name="number" value=""></button>
-                <button type="submit" class="cell" name="number" value=""></button>
-                <button type="submit" class="cell" name="number" value=""></button>
-                <button type="submit" class="cell" name="number" value=""></button>
+                <?php foreach ($game_map as $key => $value) { 
+                    $opened = in_array($key, $opened_cells); ?>
+                    <?php if ($opened) { ?>
+                        <div class="cell">
+                            <button disabled class="cell" style="background-color: green;">
+                                <?php echo $value; ?>
+                            </button>
+                        </div>
+                    <?php } else { ?>
+                        <form action="/handlers/submit-cell.php" method="post" class="cell">
+                            <input type="hidden" name="number" value="<?php echo $key; ?>">
+                            <button type="submit"  name="value" value="<?php echo $value === true ? 'true' : $value; ?>" <?php echo $value === true ? 'style="background-color: red"' : ''; ?>>
+                                <?php echo ($value === true ? 'mine' : $value); ?> 
+                            </button>
+                        </form>
+                    <?php } ?>
+                <?php } ?>
             </div>
         </div>
-    </form>
-</div>
+    </div>
 </body>
-
-<script src="/view/assets/js/bootstrap.min.js"></script>
-
-</html>
