@@ -1,0 +1,40 @@
+
+/* header */
+
+.header-title{
+    display: flex;
+    justify-content: center;
+    font-family: "Calisto MT";
+    font-size: 50px;
+    margin: 20px;
+}
+
+/* main  cells */
+
+.cells {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+}
+
+.cell {
+    display: flex;
+    width: 30%;
+    height: 30%;
+    justify-content: center;
+    align-items: center;
+    background-color: lightblue;
+    border: 2px solid lightseagreen;
+    border-radius: 10%;
+    margin: 1%;
+}
+
+.cell:hover {
+    cursor: pointer;
+    background-color: lightcyan;
+}
