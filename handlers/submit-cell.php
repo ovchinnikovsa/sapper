@@ -12,9 +12,8 @@ if ($_POST['value'] === 'true') {
 
 $number = (int)$_POST['number'];
 set_open_cell($number);
+// open_cells_around_selected_cell($number);
 $value = (int)$_POST['value'];
+open_cells_around_selected_cell($number);
 
-get_game_map();
-
-var_dump($_POST);
-die();
+redirect('/');
