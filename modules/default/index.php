@@ -25,5 +25,15 @@ function session_clear_value($key): void
 function redirect(string $path): void
 {
     header('Location: https://' . $_SERVER['SERVER_NAME'] . $path);
-    exit;
+    die();
+}
+
+function post($key, $value = null)
+{
+    if ($value)
+    {
+        $_POST[$key] = $value;
+        return true;
+    }
+    return $_POST[$key];
 }

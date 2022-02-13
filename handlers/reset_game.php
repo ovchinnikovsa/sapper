@@ -4,8 +4,8 @@ require_once __DIR__ . '/../modules/index.php';
 
 if ($_POST['reset'])
 {
-    reset_game_map();
-    clear_opened_cells();
+    session_clear_value('game_map');
+    session_clear_value('open_cells');
 }
 
 redirect('/');
