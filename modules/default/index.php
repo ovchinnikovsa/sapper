@@ -24,7 +24,8 @@ function session_clear_value($key): void
 
 function redirect(string $path): void
 {
-    header('Location: https://' . $_SERVER['SERVER_NAME'] . $path);
+    // dd('Location: https://' . $_SERVER['SERVER_NAME'] . $path);
+    header('Location: http://' . $_SERVER['SERVER_NAME'] . $path);
     die();
 }
 

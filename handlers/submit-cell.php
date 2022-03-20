@@ -3,20 +3,38 @@ session_start();
 require_once __DIR__ . '/../modules/index.php';
 
 $number = (int)post('number');
-if (!post('value') && !session_get('game_map'))
+if (!session_get('game_map'))
 {
     set_game_map($number);
+    session_set('game_over', false);
     open_cells_around_selected_cell($number);
     redirect('/');
 }
 
-
-$value = post('value');
-if ($value === 'true')
+$action = post('action');
+if ($action === 'open')
 {
-    game_over();
+    $value = get_value_by_number_cells($number);
+    if ($value === true)
+    {
+        game_over($number);
+        redirect('/');
+    }
+    open_cells_around_selected_cell($number);
+}
+else if ($action === 'demine')
+{
+    $flag_number = is_flag_cell($number);
+    if ($flag_number !== false)
+    {
+        unset($_SESSION['flag_cells'][$flag_number]);
+        redirect('/');
+    }
+    set_flag_cell($number);
 }
 
-open_cells_around_selected_cell($number);
+if(is_user_win()) {
+    session_set('game_winned', true);
+}
 
 redirect('/');

@@ -1,19 +1,34 @@
 
 /* header */
+*{
+    font-family: "Calisto MT";
+}
 
 .header-title{
     display: flex;
     justify-content: center;
-    font-family: "Calisto MT";
     font-size: 50px;
     margin: 20px;
 }
 
-/* main  cells */
+/* aside */
 
+.aside {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+.aside-item {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+/* main  cells */
 .cells {
-    width: 800px;
-    height: 800px;
+    width: 85vh;
+    height: 85vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -22,23 +37,97 @@
 
 }
 
-.cell {
-    width: 6%;
-    height: 6%;
+@media (max-width: 991px) {
+    .cells {
+        width: 50vw;
+        height: 50vw;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .cells {
+        width: 100vw;
+        height: 100vw;
+    }
+  }
+  
+  @media (max-width: 575px) {
+    .cells {
+        width: 100vw;
+        height: 100vw;
+    }
+  }
+
+
+.cells div {
+    background-color: lightgrey;
+    font-size: 1em;
 }
   
-.cell button {
+.cells div button {
     display: flex;
     width: 100%;
     height: 100%;
     justify-content: center;
     align-items: center;
-    background-color: lightgrey;
     border: 1px solid white;
 }
 
-
-.cell button:hover {
+.cells div button:hover {
     cursor: pointer;
-    background-color: lightslategray;
+    border: 3px solid black;
+}
+
+.mines-around-0 {
+    background-color: lightslategrey;
+}
+.mines-around-1 {
+    background-color: #fafaac;
+}
+.mines-around-2 {
+    background-color: #fad38c;
+}
+.mines-around-3 {
+    background-color: #fa8c8c;
+}
+.mines-around-4 {
+    background-color: #fa4646;
+}
+.mines-around-5 {
+    background-color: #fa4646;
+}
+.mines-around-6 {
+    background-color: #fa4646;
+}
+.mines-around-7 {
+    background-color: #fa4646;
+}
+.mines-around-8 {
+    background-color: #fa4646;
+}
+.mines-around-9 {
+    background-color: #fa4646;
+}
+
+.mine {
+    background-color: #ff0000;
+}
+
+.mine::before{
+    content: '';
+}
+
+.mine-exploded{
+    background-color: black;
+}
+
+.flag{
+    background-color: lightsteelblue;
+}
+
+/* footer */
+
+.flag-count{
+    font-weight: 600;
+    text-align: center;
 }

@@ -1,16 +1,16 @@
 <?php
 
-function generate_game_map(int $difficult = 40): array
+function generate_game_map(): array
 {
     $size = get_map_size();
     $sqr_size = pow($size, 2);
-    $game_map = array_fill(0, $sqr_size, 0);
+    $game_map = array_fill(1, $sqr_size, 0);
     $sqr_size--;
 
     $mines = [];
-    for ($i = 0; $i < $difficult; $i++)
+    for ($i = 1; $i <= get_difficult(); $i++)
     {
-        $random_mine = rand(0, $sqr_size);
+        $random_mine = rand(1, $sqr_size);
         if (in_array($random_mine, $mines))
         {
             $i--;
@@ -64,7 +64,10 @@ function get_existing_game_map(): array
 
 function set_open_cell($cell_number): void
 {
-    $_SESSION['open_cells'][] = $cell_number;
+    if (!in_array($cell_number, $_SESSION['open_cells'] ?: []))
+    {
+        $_SESSION['open_cells'][] = $cell_number;
+    }
 }
 
 function get_open_cells(): array
@@ -72,9 +75,31 @@ function get_open_cells(): array
     return session_get('open_cells') ?? [];
 }
 
-function set_map_size(int $size = 16): void
+function set_flag_cell($selected_cell): void
+{
+    $_SESSION['flag_cells'][] = $selected_cell;
+}
+
+function get_flag_cells(): array
+{
+    return session_get('flag_cells') ?? [];
+}
+
+function set_map_size(int $size = 6): void
 {
     session_set('map_size', $size);
+}
+
+function set_difficult(int $difficult = 40): void
+{
+    $size = get_map_size();
+    $difficult = $difficult > $size ? ceil($size / 4) * 2 : $difficult;
+    session_set('difficult', $difficult);
+}
+
+function get_value_by_number_cells($number)
+{
+    return get_existing_game_map()[$number];
 }
 
 function get_map_size(): int
@@ -86,12 +111,21 @@ function get_map_size(): int
     return session_get('map_size');
 }
 
+function get_difficult(): int
+{
+    if (!session_get('difficult'))
+    {
+        set_difficult();
+    }
+    return session_get('difficult');
+}
+
 function increase_value_from_game_map(int $cell_number, array $game_map): array
 {
     $size = get_map_size();
-    $sqr_size = pow($size, 2) - 1;
+    $sqr_size = pow($size, 2);
 
-    if ($cell_number < 0 || $game_map[$cell_number] === true || $cell_number > $sqr_size)
+    if ($cell_number <= 0 || $game_map[$cell_number] === true || $cell_number > $sqr_size)
     {
         return $game_map;
     }
@@ -103,15 +137,21 @@ function increase_value_from_game_map(int $cell_number, array $game_map): array
 function get_cells_around(int $selected_cell): array
 {
     $size = get_map_size();
+
     $cells_around = [];
     for ($i = -1; $i <= 1; $i++)
     {
-        $j = $selected_cell % $size === 0 ? 0 : -1;
-        $j_limit = ($selected_cell + 1) % $size === 0 ? 0 : 1;
+        $j = ($selected_cell - 1) % $size === 0 ? 0 : -1;
+        $j_limit = $selected_cell % $size === 0 ? 0 : 1;
 
         for ($j; $j <= $j_limit; $j++)
         {
-            $cells_around[] = $selected_cell + $size * $i + $j;
+            $cell_around = $selected_cell + $size * $i + $j;
+            if ($cell_around > 0 && $cell_around <= pow($size, 2))
+            {
+                $cells_around[] = $cell_around;
+            }
+
         }
     }
     return $cells_around;
@@ -146,7 +186,7 @@ function open_cells_around_selected_cell($selected_cell): bool
     {
         foreach ($checking_cells as $checking_cell)
         {
-            foreach (get_cells_around($checking_cell, $size) as $cell)
+            foreach (get_cells_around($checking_cell) as $cell)
             {
                 if (in_array($cell, $opened_cells) || in_array($cell, $checked_cells))
                 {
@@ -173,7 +213,18 @@ function open_cells_around_selected_cell($selected_cell): bool
     return true;
 }
 
-function game_over(): void
+function game_over(int $mined_cell): void
 {
-    session_set('game_over', true);
+    session_set('game_over', $mined_cell);
+}
+
+function is_flag_cell(int $cell_number)
+{
+    return array_search($cell_number, get_flag_cells());
+}
+
+function is_user_win(): bool
+{
+    $difficult = get_difficult();
+    return (count(get_open_cells()) == pow(get_map_size(), 2) - $difficult) && $difficult == count(get_flag_cells());
 }

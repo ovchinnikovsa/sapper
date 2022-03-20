@@ -1,72 +1,106 @@
 <?php require_once 'view/blocks/head.php'; ?>
 <?php require_once 'view/blocks/header.php'; ?>
+<main class="col-md-8 col-lg-8">
+    <?php
+    $game_map = get_existing_game_map();
+    $size = get_map_size();
+    $style_size = round(100 / $size, 2) - 0.1;
+    ?>
 
-<body>
-    <div class="container-sm">
-        <?php
-        $game_map = get_existing_game_map();
-        if ($game_map)
-        {
-            $opened_cells = get_open_cells();
-        ?>
-        <div class="row justify-content-center">
-            <div class="cells">
+    <style>
+    .cells div {
+        width: <?php echo $style_size;
+        ?>%;
+        height: <?php echo $style_size;
+        ?>%;
+    }
+    </style>
+
+    <?php
+    if ($game_map)
+    {
+        $opened_cells = get_open_cells();
+        $flag_cells = get_flag_cells();
+    ?>
+
+
+
+    <div class="row justify-content-center">
+        <div class="cells">
             <?php
-            foreach ($game_map as $key => $value)
+        foreach ($game_map as $key => $value)
+        {
+            if (session_get('game_over') || session_get('game_winned'))
             {
-                if (in_array($key, $opened_cells) && (bool)session_get('game_over'))
+    ?>
+            <div class="cell-opened">
+                <?php if ($value === true)
                 { ?>
-                        <div class="cell">
-                            <button  class="cell" 
-                            <?php
-                    if ($value === true)
-                    {
-                        echo 'style="background-color: red"';
-                    }
-                    elseif ($value === 0)
-                    {
-                        echo 'style="background-color: green"';
-                    }
-        ?>>
-                                <?php echo $value; ?>
-                            </button>
-                        </div>
-                    <?php
+                <button class="mine<?php echo $key === session_get('game_over') ? '-exploded' : ''; ?>">
+                    <?php echo $key === session_get('game_over') ? '&#128165;' : '&#128163;'; ?>
+                </button>
+                <?php
                 }
                 else
                 { ?>
-                        <form action="/handlers/submit-cell.php" method="post" class="cell">
-                            <input type="hidden" name="number" value="<?php echo $key; ?>">
-                            <button type="submit"  name="value" value="<?php echo $value === true ? 'true' : $value; ?>">
-                            </button>
-                        </form>
-                    <?php
+                <button class="mines-around-<?php echo $value; ?>">
+                    <?php echo $value; ?>
+                </button>
+                <?php
                 }?>
-                <?php
-            }?>
             </div>
+            <?php
+            }
+            else if (in_array($key, $opened_cells))
+            { ?>
+            <div class="cell-opened">
+                <button class="mines-around-<?php echo $value; ?>">
+                    <?php echo $value; ?>
+                </button>
+            </div>
+            <?php
+            }
+            else if (in_array($key, $flag_cells))
+            { ?>
+            <div class="flag-cell" data-number="<?php echo $key; ?>">
+                <button class="flag">
+                    &#128681;
+                </button>
+            </div>
+            <?php
+            }
+            else
+            { ?>
+            <div class="cell" data-number="<?php echo $key; ?>">
+                <button type="submit">
+                </button>
+            </div>
+            <?php
+            }?>
+            <?php
+        }?>
         </div>
-        <?php
-        }
-        else
-        {
-            $size = get_map_size();
-        ?>
-         <div class="row justify-content-center">
-            <div class="cells">
-                <?php
-            for ($i = 0; $i < pow($size, 2); $i++)
-            {
-        ?>
-                    <form action="/handlers/submit-cell.php" method="post" class="cell">
-                        <button type="submit"  name="number" value="<?php echo $i; ?>" style="">
-                        </button>
-                    </form>
-                <?php
-            }?>
-            </div>
-         </div>
-        <?php
-        }?> 
     </div>
-</body>
+    <?php
+    }
+    else
+    {
+    ?>
+    <div class="row justify-content-center">
+        <div class="cells">
+            <?php
+        for ($i = 1; $i <= pow($size, 2); $i++)
+        {
+    ?>
+            <div class="cell" data-number="<?php echo $i; ?>">
+                <button type="submit"></button>
+            </div>
+            <?php
+        }?>
+        </div>
+    </div>
+    <?php
+    }?>
+</main>
+
+<?php require_once 'view/blocks/footer.php'; ?>
