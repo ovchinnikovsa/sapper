@@ -90,10 +90,12 @@ function set_map_size(int $size = 6): void
     session_set('map_size', $size);
 }
 
-function set_difficult(int $difficult = 40): void
+function set_difficult(int $difficult = 0): void
 {
-    $size = get_map_size();
-    $difficult = $difficult > $size ? ceil($size / 4) * 2 : $difficult;
+    if ($difficult === 0) {
+        $size = get_map_size();
+        $difficult = ceil($size / 4) * 2;
+    }
     session_set('difficult', $difficult);
 }
 
@@ -227,4 +229,30 @@ function is_user_win(): bool
 {
     $difficult = get_difficult();
     return (count(get_open_cells()) == pow(get_map_size(), 2) - $difficult) && $difficult == count(get_flag_cells());
+}
+
+function get_difficult_presets(): array
+{
+    return [
+        4 => ['size' => 5, 'title' => 'cringe'],
+        6 => ['size' => 6, 'title' => 'easy'],
+        10 => ['size' => 8, 'title' => 'medium'],
+        20 => ['size' => 10, 'title' => 'hard'],
+        30 => ['size' => 12, 'title' => 'insane'],
+        60 => ['size' => 16, 'title' => 'death'],
+    ];
+}
+
+function is_game_ended(): bool 
+{
+    return (session_get('game_over') || session_get('game_winned'));
+}
+
+function show_flag_limit()
+{
+    $is_limit = $_SESSION['flag_limit'] ?? false;
+    if ($is_limit) {
+        unset($_SESSION['flag_limit']);
+    }
+    return $is_limit;
 }

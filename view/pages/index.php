@@ -35,11 +35,18 @@
     ?>
             <div class="cell-opened">
                 <?php if ($value === true)
-                { ?>
+                { 
+                    if (in_array($key, $flag_cells)) {
+                    ?>
+                <button class="mine">
+                &#128681;
+                </button>
+                <?php } else { ?>
                 <button class="mine<?php echo $key === session_get('game_over') ? '-exploded' : ''; ?>">
                     <?php echo $key === session_get('game_over') ? '&#128165;' : '&#128163;'; ?>
                 </button>
                 <?php
+                }
                 }
                 else
                 { ?>

@@ -30,6 +30,10 @@ else if ($action === 'demine')
         unset($_SESSION['flag_cells'][$flag_number]);
         redirect('/');
     }
+    if (count(get_flag_cells()) >= get_difficult()){
+        session_set('flag_limit', true);
+        redirect('/');
+    }
     set_flag_cell($number);
 }
 

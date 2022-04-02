@@ -7,5 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/view/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/view/assets/css/style.css">
+    <link rel="icon" type="image/x-icon" href="view/assets/images/favicon.ico">
     <title>Sapper</title>
 </head>
