@@ -5,10 +5,12 @@
                 <button class="menu-button position-relative" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#mobileMenu" aria-controls="mobileMenu">
                     <img src="/view/assets/images/menu_open.png" alt="open menu">
+                    <?php if (is_game_ended()){ ?>
                     <span
                         class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
                         <span class="visually-hidden"></span>
                     </span>
+                    <?php } ?>
                 </button>
             </div>
             <h1 class="header-title">
