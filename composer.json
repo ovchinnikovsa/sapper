@@ -1,0 +1,17 @@
+{
+    "name": "ovchie/sapper",
+    "description": "Old classic game \"Sapper\"",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ovchie\\Sapper\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ovchie",
+            "email": "ov4innikovsa@yandex.ru"
+        }
+    ],
+    "require": {}
+}

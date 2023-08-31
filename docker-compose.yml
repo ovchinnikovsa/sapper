@@ -1,10 +1,11 @@
-version: '3'
+version: "3"
 
 services:
   php:
+    # build: ./docker/php/
     image: php:8.1.18-fpm
     volumes:
-      - './src:/var/www/html'
+      - "./src:/var/www/html"
   nginx:
     image: nginx:latest
     ports:
@@ -12,12 +13,10 @@ services:
       - 443:443
     restart: always
     volumes:
-      - './src:/var/www/html'
-      - './docker/nginx/conf.d:/etc/nginx/conf.d'
-#      - ./certbot/www:/var/www/certbot/:ro
-#      - ./certbot/conf/:/etc/nginx/ssl/:ro
-#  certbot:
-#    image: certbot/certbot:latest
-#    volumes:
-#      - ./certbot/www/:/var/www/certbot/:rw
-#      - ./certbot/conf/:/etc/letsencrypt/:rw
+      - "./src:/var/www/html"
+      - "./docker/nginx/conf.d:/etc/nginx/conf.d"
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - "./src:/var/www/html:rw"
+      - ./docker/volumes/certbot/conf/:/etc/letsencrypt/:rw
