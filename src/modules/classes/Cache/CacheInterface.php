@@ -1,6 +1,6 @@
 <?php
 
-namespace Cache;
+namespace Module\Cache;
 
 interface CacheInterface
 {

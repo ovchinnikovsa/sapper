@@ -1,6 +1,6 @@
 <?php
 
-namespace Structures;
+namespace Module\Structures;
 
 class Graph
 {

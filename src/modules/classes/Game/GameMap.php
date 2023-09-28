@@ -1,10 +1,10 @@
 <?php
-namespace Game;
+namespace Module\Game;
 
-use Exception;
-use Structures\Graph;
-use Core\Session;
-use Cache\Cache;
+use Module\Exception;
+use Module\Structures\Graph;
+use Module\Core\Session;
+use Module\Cache\Cache;
 
 final class GameMap
 {
@@ -64,7 +64,7 @@ final class GameMap
         for ($i = 0; $i < $this->size; $i++) {
             $this->setEdgesFromMapVertex($i);
         }
-        
+
         Cache::set($this->size, $this->game_map->getEdges());
     }
 

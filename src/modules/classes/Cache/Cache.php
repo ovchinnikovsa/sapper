@@ -1,8 +1,8 @@
 <?php
 
-namespace Cache;
+namespace Module\Cache;
 
-use Cache\CacheInterface;
+use Module\Cache\CacheInterface;
 
 class Cache implements CacheInterface
 {

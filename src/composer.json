@@ -4,7 +4,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Ovchie\\Sapper\\": "src/"
+            "Module\\": "modules/classes/"
         }
     },
     "authors": [

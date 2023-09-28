@@ -1,5 +1,7 @@
 <?php
 
+namespace Module\Connector;
+
 class Connector
 {
     private $host;
@@ -19,6 +21,6 @@ class Connector
         $this->password = $password;
 
 
-        $this->connect();
+        // $this->connect();
     }
 }
