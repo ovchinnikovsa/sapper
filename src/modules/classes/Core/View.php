@@ -1,10 +1,10 @@
 <?php
 
-namespace Module\View;
+namespace Module\Core;
 
 class View
 {
-    static $template_root = __DIR__ . '../../../view/';
+    static $template_root = __DIR__ . '/../../../view/';
     static $template_show_modal_js = 'show_modal'; // todo берет элемент выше себя с class modal
 
     public static function page(string $page_name) : void {
