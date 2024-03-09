@@ -109,5 +109,3 @@
     <?php
     }?>
 </main>
-
-<?php require_once 'view/blocks/footer.php'; ?>

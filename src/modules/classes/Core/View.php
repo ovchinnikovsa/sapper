@@ -4,7 +4,7 @@ namespace Module\Core;
 
 class View
 {
-    static $template_root = __DIR__ . '/../../../view/';
+    static $template_root = __DIR__ . '/../../../view';
     static $template_show_modal_js = 'show_modal'; // todo берет элемент выше себя с class modal
 
     public static function page(string $page_name) : void {
@@ -30,6 +30,6 @@ class View
 
     protected static function showPage(string $page_name) : void {
         // todo change to buffer input
-        require self::$template_root . '/page/' . $page_name . '.php';
+        require self::$template_root . '/pages/' . $page_name . '.php';
     }
 }

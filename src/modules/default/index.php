@@ -12,7 +12,7 @@
     }
 
     function session_get($key) {
-        return $_SESSION[$key];
+        return $_SESSION[$key] ?? null;
     }
 
     function session_clear_value($key): void {
@@ -20,8 +20,7 @@
     }
 
     function redirect(string $path): void {
-        // dd('Location: https://' . $_SERVER['SERVER_NAME'] . $path);
-        header('Location: http://' . $_SERVER['SERVER_NAME'] . $path);
+        header('Location: ' . $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $path);
         die();
     }
 
@@ -30,5 +29,5 @@
             $_POST[$key] = $value;
             return true;
         }
-        return $_POST[$key];
+        return $_POST[$key] ?? null;
     }

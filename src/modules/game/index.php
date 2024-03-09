@@ -51,7 +51,7 @@
     }
 
     function set_open_cell($cell_number): void {
-        if (!in_array($cell_number, $_SESSION['open_cells'] ?: [])) {
+        if (!in_array($cell_number, $_SESSION['open_cells'] ?? [])) {
             $_SESSION['open_cells'][] = $cell_number;
         }
     }
