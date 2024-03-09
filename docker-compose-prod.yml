@@ -7,7 +7,7 @@ services:
       - "./src:/var/www/html"
       - "./docker/volumes/composer:/var/www/"
     networks:
-      - space
+      - titleSite
 
   sapper_nginx:
     image: nginx:latest
@@ -18,4 +18,10 @@ services:
       - "./src:/var/www/html"
       - "./docker/nginx/conf.d:/etc/nginx/conf.d"
     networks:
-      - space
+      - titleSite
+
+networks:
+  titleSite:
+    external: true
+    name: titleSite
+    driver: bridge
